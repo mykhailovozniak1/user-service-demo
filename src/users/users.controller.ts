@@ -25,7 +25,6 @@ import { UserUpdateEntity } from './entities/user-update.entity';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  //TODO: Lab #3 refactoring use interfaces instead of classes in type
   constructor(private userService: UsersService) {}
   @ApiOkResponse({
     type: SignupEntity,
