@@ -25,53 +25,43 @@ export interface IDiscountDetails {
 }
 
 //TODO: Code that will be refactored
-export const VIP_DISCOUNT_AMOUNT = 20;
-export const PREMIUM_DISCOUNT_AMOUNT = 15;
-export const FAMILY_DISCOUNT_AMOUNT = 10;
-
-export const VIP_ORDERS_COUNT = 100;
-export const PREMIUM_ORDERS_COUNT = 80;
-export const FAMILY_ORDERS_COUNT = 30;
-export const FAMILY_CHILDREN_COUNT = 2;
-export const UNSUPPORTED_ORDERS_COUNT = 50;
-
-export class DiscountRefactored3 implements IDiscount {
+export class DiscountRefactored2 implements IDiscount {
   getDiscountAmount(userDetails: IUserDetails): IDiscountDetails {
     if (this.isEligibleForVIPDiscount(userDetails)) {
-      return { discountAmount: VIP_DISCOUNT_AMOUNT, type: DiscountEnumLabel.vip };
+      return { discountAmount: 20, type: DiscountEnumLabel.vip };
     }
 
     if (this.isEligibleForPremiumDiscount(userDetails)) {
-      return { discountAmount: PREMIUM_DISCOUNT_AMOUNT, type: DiscountEnumLabel.premium };
+      return { discountAmount: 15, type: DiscountEnumLabel.premium };
     }
 
     if (this.isEligibleForFamilyDiscount(userDetails)) {
-      return { discountAmount: FAMILY_DISCOUNT_AMOUNT, type: DiscountEnumLabel.family };
+      return { discountAmount: 15, type: DiscountEnumLabel.family };
     }
 
     if (this.isEligibleForUnsupportedDiscount(userDetails)) {
-      return { discountAmount: UNSUPPORTED_ORDERS_COUNT, type: DiscountEnumLabel.unsupported };
+      return { discountAmount: 12, type: DiscountEnumLabel.unsupported };
     }
 
     return { discountAmount: 0, type: DiscountEnumLabel.none };
   }
 
   private isEligibleForVIPDiscount(userDetails) {
-    return userDetails.isVIP && userDetails.ordersCount > VIP_ORDERS_COUNT;
+    return userDetails.isVIP && userDetails.ordersCount > 100;
   }
 
   private isEligibleForPremiumDiscount(userDetails) {
-    return userDetails.isPremium && userDetails.ordersCount > PREMIUM_ORDERS_COUNT;
+    return userDetails.isPremium && userDetails.ordersCount > 80;
   }
 
   private isEligibleForFamilyDiscount(userDetails) {
     return userDetails.isFamily &&
-      userDetails.children >= FAMILY_CHILDREN_COUNT &&
-      userDetails.ordersCount > FAMILY_ORDERS_COUNT;
+      userDetails.children >= 2 &&
+      userDetails.ordersCount > 30;
   }
 
   private isEligibleForUnsupportedDiscount(userDetails) {
-    return userDetails.isUnsupported && userDetails.ordersCount > UNSUPPORTED_ORDERS_COUNT;
+    return userDetails.isUnsupported && userDetails.ordersCount > 50;
   }
 }
 
