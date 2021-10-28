@@ -25,35 +25,48 @@ export interface IDiscountDetails {
 }
 
 //TODO: Code that will be refactored
-export class Discount implements IDiscount {
-  getDiscountAmount(userDetails: IUserDetails): IDiscountDetails {
-    let result;
+export const VIP_DISCOUNT_AMOUNT = 20;
+export const PREMIUM_DISCOUNT_AMOUNT = 15;
+export const FAMILY_DISCOUNT_AMOUNT = 10;
 
-    if (userDetails.isVIP) {
-      if (userDetails.ordersCount > 100) {
-        result = { discountAmount: 20, type: DiscountEnumLabel.vip };
-      }
-    } else if (userDetails.isPremium) {
-      if (userDetails.ordersCount > 80) {
-        result = { discountAmount: 15, type: DiscountEnumLabel.premium };
-      }
-    } else if (userDetails.isUnsupported) {
-      if (userDetails.ordersCount > 50) {
-        result = { discountAmount: 12, type: DiscountEnumLabel.unsupported };
-      }
-    } else if (userDetails.isFamily) {
-      if (userDetails.children > 0) {
-        if (userDetails.children <= 2) {
-          if (userDetails.ordersCount > 30) {
-            result = { discountAmount: 15, type: DiscountEnumLabel.family };
-          }
-        }
-      }
+export const VIP_ORDERS_COUNT = 100;
+export const PREMIUM_ORDERS_COUNT = 80;
+export const FAMILY_ORDERS_COUNT = 30;
+export const FAMILY_CHILDREN_COUNT = 2;
+export const UNSUPPORTED_ORDERS_COUNT = 50;
+
+export class DiscountRefactored4 implements IDiscount {
+  getDiscountAmount(userDetails: IUserDetails): IDiscountDetails {
+    if (this.isEligibleForVIPDiscount(userDetails)) {
+      return { discountAmount: VIP_DISCOUNT_AMOUNT, type: DiscountEnumLabel.vip };
     }
 
-    return result;
+    if (this.isEligibleForPremiumDiscount(userDetails)) {
+      return { discountAmount: PREMIUM_DISCOUNT_AMOUNT, type: DiscountEnumLabel.premium };
+    }
+
+    if (this.isEligibleForFamilyDiscount(userDetails)) {
+      return { discountAmount: FAMILY_DISCOUNT_AMOUNT, type: DiscountEnumLabel.family };
+    }
+
+    return { discountAmount: 0, type: DiscountEnumLabel.none };
+  }
+
+  private isEligibleForVIPDiscount(userDetails) {
+    return userDetails.isVIP && userDetails.ordersCount > VIP_ORDERS_COUNT;
+  }
+
+  private isEligibleForPremiumDiscount(userDetails) {
+    return userDetails.isPremium && userDetails.ordersCount > PREMIUM_ORDERS_COUNT;
+  }
+
+  private isEligibleForFamilyDiscount(userDetails) {
+    return userDetails.isFamily &&
+      userDetails.children >= FAMILY_CHILDREN_COUNT &&
+      userDetails.ordersCount > FAMILY_ORDERS_COUNT;
   }
 }
+
 
 //TODO #1 Replace Nested Conditional with Guard Clauses
 export class DiscountRefactored1 implements IDiscount {
