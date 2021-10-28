@@ -35,7 +35,7 @@ export const FAMILY_ORDERS_COUNT = 30;
 export const FAMILY_CHILDREN_COUNT = 2;
 export const UNSUPPORTED_ORDERS_COUNT = 50;
 
-export class DiscountRefactored3 implements IDiscount {
+export class DiscountRefactored4 implements IDiscount {
   getDiscountAmount(userDetails: IUserDetails): IDiscountDetails {
     if (this.isEligibleForVIPDiscount(userDetails)) {
       return { discountAmount: VIP_DISCOUNT_AMOUNT, type: DiscountEnumLabel.vip };
@@ -47,10 +47,6 @@ export class DiscountRefactored3 implements IDiscount {
 
     if (this.isEligibleForFamilyDiscount(userDetails)) {
       return { discountAmount: FAMILY_DISCOUNT_AMOUNT, type: DiscountEnumLabel.family };
-    }
-
-    if (this.isEligibleForUnsupportedDiscount(userDetails)) {
-      return { discountAmount: UNSUPPORTED_ORDERS_COUNT, type: DiscountEnumLabel.unsupported };
     }
 
     return { discountAmount: 0, type: DiscountEnumLabel.none };
@@ -69,11 +65,8 @@ export class DiscountRefactored3 implements IDiscount {
       userDetails.children >= FAMILY_CHILDREN_COUNT &&
       userDetails.ordersCount > FAMILY_ORDERS_COUNT;
   }
-
-  private isEligibleForUnsupportedDiscount(userDetails) {
-    return userDetails.isUnsupported && userDetails.ordersCount > UNSUPPORTED_ORDERS_COUNT;
-  }
 }
+
 
 //TODO #1 Replace Nested Conditional with Guard Clauses
 export class DiscountRefactored1 implements IDiscount {
