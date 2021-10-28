@@ -67,11 +67,6 @@ export class UsersController {
   @Get('/:id')
   @UseGuards(AuthGuard())
   public async getUser(@Param('id') id: string, @Req() req) {
-    //TODO: Lab #3 refactoring - duplicated code 93, 104
-    if (String(req?.user?._id) !== id) {
-      throw new BadRequestException('id mismatch');
-    }
-
     return this.userService.getUserDetails(id);
   }
 
@@ -88,10 +83,6 @@ export class UsersController {
     @Body() body: UpdateUserDTO,
     @Req() req
   ) {
-    if (String(req?.user?._id) !== id) {
-      throw new BadRequestException('id mismatch');
-    }
-
     return this.userService.updateUser(id, body);
   }
 
@@ -99,10 +90,6 @@ export class UsersController {
   @Delete('/:id')
   @UseGuards(AuthGuard())
   public async deleteUser(@Param('id') id: string, @Req() req) {
-    if (String(req?.user?._id) !== id) {
-      throw new BadRequestException('id mismatch');
-    }
-
     return this.userService.deleteUser(id);
   }
 }
