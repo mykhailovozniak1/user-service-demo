@@ -25,33 +25,25 @@ export interface IDiscountDetails {
 }
 
 //TODO: Code that will be refactored
-export class Discount implements IDiscount {
+export class DiscountRefactored1 implements IDiscount {
   getDiscountAmount(userDetails: IUserDetails): IDiscountDetails {
-    let result;
-
-    if (userDetails.isVIP) {
-      if (userDetails.ordersCount > 100) {
-        result = { discountAmount: 20, type: DiscountEnumLabel.vip };
-      }
-    } else if (userDetails.isPremium) {
-      if (userDetails.ordersCount > 80) {
-        result = { discountAmount: 15, type: DiscountEnumLabel.premium };
-      }
-    } else if (userDetails.isUnsupported) {
-      if (userDetails.ordersCount > 50) {
-        result = { discountAmount: 12, type: DiscountEnumLabel.unsupported };
-      }
-    } else if (userDetails.isFamily) {
-      if (userDetails.children > 0) {
-        if (userDetails.children <= 2) {
-          if (userDetails.ordersCount > 30) {
-            result = { discountAmount: 15, type: DiscountEnumLabel.family };
-          }
-        }
-      }
+    if (userDetails.isVIP && userDetails.ordersCount > 100) {
+      return { discountAmount: 20, type: DiscountEnumLabel.vip };
     }
 
-    return result;
+    if (userDetails.isPremium && userDetails.ordersCount > 80) {
+      return { discountAmount: 15, type: DiscountEnumLabel.premium };
+    }
+
+    if (userDetails.isFamily && userDetails.children >= 2 && userDetails.ordersCount > 30) {
+      return { discountAmount: 15, type: DiscountEnumLabel.family };
+    }
+
+    if (userDetails.isUnsupported && userDetails.ordersCount > 50) {
+      return { discountAmount: 12, type: DiscountEnumLabel.unsupported };
+    }
+
+    return { discountAmount: 0, type: DiscountEnumLabel.none };
   }
 }
 
